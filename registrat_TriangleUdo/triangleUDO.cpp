@@ -151,24 +151,24 @@ int TriangleUDO::myInfoCB(UserDefinedEvent * infoEvent)
 
 int TriangleUDO::inizialize()
 {
-	if (triUdo_class == NULL)
+	if (staticClass == NULL)
 	{
 		// Define your custom UDO class 
-		triUdo_class = theSession->UserDefinedClassManager()->CreateUserDefinedObjectClass("trinagleUDO", "Sample C++ UDO");
+		staticClass = theSession->UserDefinedClassManager()->CreateUserDefinedObjectClass("trinagleUDO", "Sample C++ UDO");
 		// Setup properties on the custom UDO class 
-		triUdo_class->SetAllowQueryClassFromName(UserDefinedClass::AllowQueryClass::AllowQueryClassOn);
+		staticClass->SetAllowQueryClassFromName(UserDefinedClass::AllowQueryClass::AllowQueryClassOn);
 		// Register callbacks for the UDO class 
-		triUdo_class->AddDisplayHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddAttentionPointHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddFitHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddSelectionHandler(make_callback(&myDisplayCB));
+		staticClass->AddDisplayHandler(make_callback(&myDisplayCB));
+		staticClass->AddAttentionPointHandler(make_callback(&myDisplayCB));
+		staticClass->AddFitHandler(make_callback(&myDisplayCB));
+		staticClass->AddSelectionHandler(make_callback(&myDisplayCB));
 
-		triUdo_class->AddEditHandler(make_callback(&myEditCB));
-		triUdo_class->AddInformationHandler(make_callback(&myInfoCB));
+		staticClass->AddEditHandler(make_callback(&myEditCB));
+		staticClass->AddInformationHandler(make_callback(&myInfoCB));
 		// Add this class to the list of object types available for selection in NX. 
 		// If you skip this step you won't be able to select UDO's of this class, 
 		// even though you registered a selection callback. 
-		theUI->SelectionManager()->SetSelectionStatusOfUserDefinedClass(triUdo_class, true);
+		theUI->SelectionManager()->SetSelectionStatusOfUserDefinedClass(staticClass, true);
 	}
 	return 0;
 }
