@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C33BFAD4-EF56-42AB-9043-394D3B5403F2}</ProjectGuid>
-    <RootNamespace>NX10_NXOpenCPP_Wizard1</RootNamespace>
+    <ProjectGuid>{5359DF8A-D792-4E70-B4B1-FA6340F2A1A7}</ProjectGuid>
+    <RootNamespace>registrat_TriangleUdo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -83,7 +83,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SECURE_SCL=0;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_SECURE_NO_WARNINGS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -94,8 +94,8 @@
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(OutDir)/NX10_NXOpenCPP_Wizard1.dll</OutputFile>
-      <ImportLibrary>$(OutDir)/NX10_NXOpenCPP_Wizard1.lib</ImportLibrary>
+      <OutputFile>$(OutDir)/registrat_TriangleUdo.dll</OutputFile>
+      <ImportLibrary>$(OutDir)/registrat_TriangleUdo.lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(UGII_BASE_DIR)\ugopen;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libufun.lib;libufun_cae.lib;libufun_cam.lib;libnxopencpp.lib;libnxopencpp_annotations.lib;libnxopencpp_assemblies.lib;libnxopencpp_bodydes.lib;libnxopencpp_cae.lib;libnxopencpp_cam.lib;libnxopencpp_diagramming.lib;libnxopencpp_die.lib;libnxopencpp_display.lib;libnxopencpp_drafting.lib;libnxopencpp_drawings.lib;libnxopencpp_facet.lib;libnxopencpp_features.lib;libnxopencpp_fields.lib;libnxopencpp_formboard.lib;libnxopencpp_gateway.lib;libnxopencpp_geometricanalysis.lib;libnxopencpp_geometricutilities.lib;libnxopencpp_issue.lib;libnxopencpp_layer.lib;libnxopencpp_layout2d.lib;libnxopencpp_markup.lib;libnxopencpp_mechatronics.lib;libnxopencpp_modldirect.lib;libnxopencpp_motion.lib;libnxopencpp_optimization.lib;libnxopencpp_options.lib;libnxopencpp_partfamily.lib;libnxopencpp_pdm.lib;libnxopencpp_physmat.lib;libnxopencpp_positioning.lib;libnxopencpp_preferences.lib;libnxopencpp_routing.lib;libnxopencpp_shapesearch.lib;libnxopencpp_sheetmetal.lib;libnxopencpp_sim.lib;libnxopencpp_tooling.lib;libnxopencpp_userdefinedobjects.lib;libnxopencpp_userdefinedtemplate.lib;libnxopencpp_validate.lib;libnxopencpp_visualreporting.lib;libnxopencpp_weld.lib;libugopenint.lib;libugopenint_cae.lib;libugopenint_cam.lib;libnxopenuicpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -132,7 +132,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SECURE_SCL=0;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_SECURE_NO_WARNINGS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -145,8 +145,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <TargetMachine>MachineX64</TargetMachine>
-      <OutputFile>$(OutDir)/NX10_NXOpenCPP_Wizard1.dll</OutputFile>
-      <ImportLibrary>$(OutDir)/NX10_NXOpenCPP_Wizard1.lib</ImportLibrary>
+      <OutputFile>$(OutDir)/registrat_TriangleUdo.dll</OutputFile>
+      <ImportLibrary>$(OutDir)/registrat_TriangleUdo.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(UGII_BASE_DIR)\ugopen;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libufun.lib;libufun_cae.lib;libufun_cam.lib;libnxopencpp.lib;libnxopencpp_annotations.lib;libnxopencpp_assemblies.lib;libnxopencpp_bodydes.lib;libnxopencpp_cae.lib;libnxopencpp_cam.lib;libnxopencpp_diagramming.lib;libnxopencpp_die.lib;libnxopencpp_display.lib;libnxopencpp_drafting.lib;libnxopencpp_drawings.lib;libnxopencpp_facet.lib;libnxopencpp_features.lib;libnxopencpp_fields.lib;libnxopencpp_formboard.lib;libnxopencpp_gateway.lib;libnxopencpp_geometricanalysis.lib;libnxopencpp_geometricutilities.lib;libnxopencpp_issue.lib;libnxopencpp_layer.lib;libnxopencpp_layout2d.lib;libnxopencpp_markup.lib;libnxopencpp_mechatronics.lib;libnxopencpp_modldirect.lib;libnxopencpp_motion.lib;libnxopencpp_optimization.lib;libnxopencpp_options.lib;libnxopencpp_partfamily.lib;libnxopencpp_pdm.lib;libnxopencpp_physmat.lib;libnxopencpp_positioning.lib;libnxopencpp_preferences.lib;libnxopencpp_routing.lib;libnxopencpp_shapesearch.lib;libnxopencpp_sheetmetal.lib;libnxopencpp_sim.lib;libnxopencpp_tooling.lib;libnxopencpp_userdefinedobjects.lib;libnxopencpp_userdefinedtemplate.lib;libnxopencpp_validate.lib;libnxopencpp_visualreporting.lib;libnxopencpp_weld.lib;libugopenint.lib;libugopenint_cae.lib;libugopenint_cam.lib;libnxopenuicpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -156,7 +156,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NX10_NXOpenCPP_Wizard1.cpp" />
+    <ClCompile Include="registrat_TriangleUdo.cpp" />
+    <ClCompile Include="triangleUDO.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="triangleUDO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

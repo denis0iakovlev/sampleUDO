@@ -1,8 +1,8 @@
 ========================================================================
-    NX Open API : NX10_NXOpenCPP_Wizard1 Project Overview
+    NX Open API : registrat_TriangleUdo Project Overview
 ========================================================================
 
-The NX10 Open AppWizard has created this NX10_NXOpenCPP_Wizard1 project for you as a starting point.
+The NX10 Open AppWizard has created this registrat_TriangleUdo project for you as a starting point.
 
 This file contains a summary of what you will find in each of the files that make up your project.
 *.vcproj

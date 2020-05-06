@@ -34,14 +34,10 @@
 //=============================================================================
 /* Include files */ 
 #define FOLD_APP
-#define FOLD_UDO
+//#define FOLD_UDO
 
 #include <sstream>
 #include <iostream>
-using std::ostringstream;
-using std::endl;    
-using std::ends;
-using std::cerr;
 
 #include <uf.h>
 #include <uf_ui.h>
@@ -74,212 +70,17 @@ using std::cerr;
 #include <NXOpen/Features_UserDefinedObjectFeature.hxx> 
 #include <NXOpen/Features_FeatureCollection.hxx> 
 #include <NXOpen/Features_Feature.hxx> 
+#include "triangleUDO.h"
 
-
+using namespace std;
 using namespace NXOpen; 
 using namespace NXOpen::UserDefinedObjects;
 using namespace NXOpen::Features;
 //static variables 
 static NXOpen::Session* theSession = NULL; 
 static UI* theUI = NULL; 
+static UserDefinedClass* myUDO = NULL;
 
-static UserDefinedClass* myUDOclass = NULL; 
-
-//------------------------------------------------------------------------------ 
-// Callback Name: myDisplayCB 
-// This is a callback method associated with displaying a UDO. 
-// This same callback is registered for display, select, fit, and attention point 
-//------------------------------------------------------------------------------ 
-extern int myDisplayCB(UserDefinedDisplayEvent*  displayEvent) 
-{ 
-    try 
-    { 
-		
-        // Get the doubles used to define the selected screen position for this UDO. 
-        std::vector<double> myUDOdoubles = displayEvent->UserDefinedObject()->GetDoubles(); 
-        
-        // Use the doubles to define points of a triangle 
-        std::vector<Point3d> myPoints(4); 
-        
-        myPoints[0].X = myUDOdoubles[0] + 0; 
-        myPoints[0].Y = myUDOdoubles[1] + 0; 
-        myPoints[0].Z = myUDOdoubles[2] + 0; 
-        
-        myPoints[1].X = myUDOdoubles[0] + 100; 
-        myPoints[1].Y = myUDOdoubles[1] + 0; 
-        myPoints[1].Z = myUDOdoubles[2] + 0; 
-        
-        myPoints[2].X = myUDOdoubles[0] + 0; 
-        myPoints[2].Y = myUDOdoubles[1] + 100; 
-        myPoints[2].Z = myUDOdoubles[2] + 0; 
-        
-        myPoints[3].X = myUDOdoubles[0] + 0; 
-        myPoints[3].Y = myUDOdoubles[1] + 0; 
-        myPoints[3].Z = myUDOdoubles[2] + 0; 
-        
-        // Display the triangle 
-        displayEvent->DisplayContext()->DisplayPolyline(myPoints); 
-        
-        // Display the text next to the triangle 
-        Point3d myPt = Point3d(myUDOdoubles[0] + 100, myUDOdoubles[1], myUDOdoubles[2]); 
-        displayEvent->DisplayContext()->DisplayText("C++ UDO", myPt, UserDefinedObjectDisplayContext::TextRefBottomLeft); 
-    } 
-    catch (NXException ex) 
-    { 
-        // ---- Enter your exception handling code here ----- 
-        cerr << "Caught exception: " << ex.Message() << endl; 
-    } 
-    return 0; 
-} 
-//------------------------------------------------------------------------------ 
-// Callback Name: myEditCB 
-// This is a callback method associated with editing a UDO. 
-//------------------------------------------------------------------------------ 
-extern int myEditCB(UserDefinedEvent* editEvent) 
-{ 
-    try 
-    { 
-        // required for calls to legacy UF routines 
-        // such as UF_DISP_add_item_to_display 
-        UF_initialize(); 
-        
-        View* myView = NULL; 
-        Point3d myCursor(0,0,0); 
-        
-        // highlight the current udo we are about to edit 
-        // this is helpful if multiple udo's were on the selection 
-        // list when the user decided to edit them 
-        editEvent->UserDefinedObject()->Highlight(); 
-        
-        // ask the user to select a new origin for this UDO 
-        Selection::DialogResponse myResponse = theUI->SelectionManager()->SelectScreenPosition("Select New Origin for C++ UDO", &myView, &myCursor); 
-        // we are done asking the user for input... unhighlight the udo 
-        editEvent->UserDefinedObject()->Unhighlight(); 
-        
-        // use the new screen position (if the user picked one)
-
-        if( myResponse == Selection::DialogResponsePick ) 
-        { 
-            std::vector<double> myUDOdoubles(3); 
-            myUDOdoubles[0] = myCursor.X; 
-            myUDOdoubles[1] = myCursor.Y; 
-            myUDOdoubles[2] = myCursor.Z; 
-            // store the newly selected origin with the udo 
-            editEvent->UserDefinedObject()->SetDoubles(myUDOdoubles); 
-            // add the udo to the display list manually 
-            // this will force the udo display to regenerate 
-            // immediately and show the changes we just made 
-            UF_DISP_add_item_to_display(editEvent->UserDefinedObject()->Tag()); 
-        } 
-        UF_terminate(); 
-    } catch (NXException ex) 
-    { 
-        // ---- Enter your exception handling code here ----- 
-        cerr << "Caught exception: " << ex.Message() << endl; 
-    } return 0; 
-} 
-//------------------------------------------------------------------------------ 
-// Callback Name: myInfoCB 
-// This is a callback method associated with querying information for a UDO. 
-// The information is printed in the listing window. 
-//------------------------------------------------------------------------------ 
-extern int myInfoCB(UserDefinedEvent* infoEvent) 
-{ 
-    try 
-    { 
-        ListingWindow* theLW = theSession->ListingWindow(); 
-        char msg[256]; 
-        theLW->Open(); 
-        theLW->WriteLine(" "); 
-        theLW->WriteLine("------------------------------------------------------------"); 
-        theLW->WriteLine("Begin Custom Information"); 
-        theLW->WriteLine(" "); 
-        NXOpen::NXString formattedMessage;
-        formattedMessage = "UDO Class Name: " + (infoEvent->UserDefinedObject()->UserDefinedClass()->ClassName()); 
-        theLW->WriteLine(formattedMessage); 
-        formattedMessage = "UDO Friendly Name: " + infoEvent->UserDefinedObject()->UserDefinedClass()->FriendlyName();
-        theLW->WriteLine(formattedMessage); 
-        std::vector<double> myUDOdoubles = infoEvent->UserDefinedObject()->GetDoubles(); 
-        std::ostringstream DoubleBuffer; 
-        DoubleBuffer << myUDOdoubles[0]; 
-        formattedMessage = DoubleBuffer.str(); 
-        theLW->WriteLine(formattedMessage); 
-        DoubleBuffer.str("");
-        DoubleBuffer.clear();
-        DoubleBuffer << myUDOdoubles[1]; 
-        formattedMessage = DoubleBuffer.str();  
-        theLW->WriteLine(formattedMessage); 
-        DoubleBuffer.str("");
-        DoubleBuffer.clear();
-        DoubleBuffer << myUDOdoubles[2]; 
-        formattedMessage = DoubleBuffer.str();  
-        theLW->WriteLine(formattedMessage); 
-        theLW->WriteLine(" "); 
-        theLW->WriteLine("End Custom Information"); 
-    } 
-    catch (NXException ex) 
-    { 
-        // ---- Enter your exception handling code here ----- 
-        cerr << "Caught exception: " << ex.Message() << endl; 
-    } 
-    return 0; 
-} 
-
-//------------------------------------------------------------------------------ 
-// initUDO 
-// Checks to see which (if any) of the application's static variables are 
-// uninitialized, and sets them accordingly. 
-// Initializes the UDO class and registers all of its callback methods. 
-//------------------------------------------------------------------------------ 
-static int initUDO( bool alertUser) 
-{ 
-    try 
-    { 
-
-        if (theSession == NULL) 
-        { 
-            theSession = Session::GetSession(); 
-        } 
-        if( theUI == NULL ) 
-        { 
-            theUI = UI::GetUI(); 
-        } 
-        if (myUDOclass == NULL) 
-        { 
-            if (alertUser) 
-            { 
-                ListingWindow* 
-                theLW = theSession->ListingWindow(); 
-                theLW->Open(); 
-                theLW->WriteLine("Registering C++ UDO Class"); 
-            } 
-            // Define your custom UDO class 
-            myUDOclass = theSession->UserDefinedClassManager()->CreateUserDefinedObjectClass("Sample_Cpp_UDO", "Sample C++ UDO"); 
-
-            // Setup properties on the custom UDO class 
-            myUDOclass->SetAllowQueryClassFromName(UserDefinedClass::AllowQueryClass::AllowQueryClassOn); 
-            // Register callbacks for the UDO class 
-            myUDOclass->AddDisplayHandler(make_callback(&myDisplayCB)); 
-            myUDOclass->AddAttentionPointHandler(make_callback(&myDisplayCB)); 
-            myUDOclass->AddFitHandler(make_callback(&myDisplayCB)); 
-            myUDOclass->AddSelectionHandler(make_callback(&myDisplayCB)); 
-            myUDOclass->AddEditHandler(make_callback(&myEditCB)); 
-            myUDOclass->AddInformationHandler(make_callback(&myInfoCB)); 
-			
-			
-            // Add this class to the list of object types available for selection in NX. 
-            // If you skip this step you won't be able to select UDO's of this class, 
-            // even though you registered a selection callback. 
-            theUI->SelectionManager()->SetSelectionStatusOfUserDefinedClass(myUDOclass, true); 
-        } 
-    } 
-    catch (NXException ex) 
-    { 
-        // ---- Enter your exception handling code here ----- 
-        cerr << "Caught exception: " << ex.Message() << endl; 
-    } 
-    return 0; 
-} 
 
 //------------------------------------------------------------------------------ 
 // ufusr (Explicit Activation) 
@@ -295,16 +96,17 @@ extern void ufusr( char *parm, int *returnCode, int rlen )
         // required for calls to legacy UF routines 
         // such as UF_DISP_add_item_to_display 
         UF_initialize(); 
-        
-        // initialize the UDO - if we didn't load this library at 
-        // startup, here is our second chance to load it 
-        initUDO(true); 
-        
+		theSession = Session::GetSession();
+		theUI = UI::GetUI();
+
+		myUDO = TriangleUDO::GetClassUDO();
+		ListingWindow* lw = theSession->ListingWindow();
+		
         // if we don't have any parts open create one 
         BasePart* myBasePart = theSession->Parts()->BaseDisplay(); 
         if( myBasePart == NULL) 
         { 
-            myBasePart = theSession->Parts()->NewBaseDisplay("test_cpp_udo.prt", BasePart::UnitsMillimeters); 
+            myBasePart = theSession->Parts()->NewBaseDisplay("test_cpp_udo1.prt", BasePart::UnitsMillimeters); 
         } 
 		Part* workPart = dynamic_cast<Part*>(myBasePart);
         
@@ -323,7 +125,7 @@ extern void ufusr( char *parm, int *returnCode, int rlen )
 
             // The user selected a point - go ahead and create the udo 
             UserDefinedObjectManager* myUDOmanager = myBasePart->UserDefinedObjectManager(); 
-            UserDefinedObject* firstUDO = myUDOmanager->CreateUserDefinedObject(myUDOclass); 
+            UserDefinedObject* firstUDO = myUDOmanager->CreateUserDefinedObject(myUDO);
             // set the color property of the udo - just for fun :) 
 
             firstUDO->SetColor(36); 
@@ -338,7 +140,7 @@ extern void ufusr( char *parm, int *returnCode, int rlen )
             // this will force the udo to display immediately 
 			Feature* udoFeature(NULL);
 			UserDefinedObjectFeatureBuilder* userDefineFeauture = workPart->Features()->CreateUserDefinedObjectFeatureBuilder(udoFeature);
-			userDefineFeauture->SetUserDefinedClass(myUDOclass);
+			userDefineFeauture->SetUserDefinedClass(myUDO);
 			userDefineFeauture->SetUserDefinedObject(firstUDO);
 			bool isVali;
 			isVali = userDefineFeauture->Validate();
@@ -347,7 +149,12 @@ extern void ufusr( char *parm, int *returnCode, int rlen )
 				objFeature = dynamic_cast<decltype(objFeature)>(userDefineFeauture->Commit());
 			}
             UF_DISP_add_item_to_display(firstUDO->Tag()); 
+			stringstream str;
+			auto allUdoObj = myUDOmanager->GetUdosOfClass(myUDO);
+			str << "Всего UDO обьектов в детали  : " << allUdoObj.size() << endl;
+			theLW->WriteLine(str.str().c_str());
         } 
+
         UF_terminate(); 
     } 
     catch (const NXOpen::NXException& ex) 
@@ -391,6 +198,6 @@ extern void ufsta( char *param, int *returnCode, int rlen )
 extern int ufusr_ask_unload( void ) 
 { 
     //return (int)Session::LibraryUnloadOptionExplicitly; 
-    // return (int)Session::LibraryUnloadOptionImmediately; 
-    return (int)Session::LibraryUnloadOptionAtTermination; 
+     return (int)Session::LibraryUnloadOptionImmediately; 
+   // return (int)Session::LibraryUnloadOptionAtTermination; 
 }

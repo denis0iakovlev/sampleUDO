@@ -18,12 +18,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ufx_udo_application.c">
+    <ClCompile Include="registrat_TriangleUdo.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="triangleUDO.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ufx_udo.h">
+    <ClInclude Include="triangleUDO.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

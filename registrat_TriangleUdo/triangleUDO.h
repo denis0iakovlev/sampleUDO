@@ -1,12 +1,4 @@
 #pragma once
-#include <uf.h>
-#include <uf_ui.h>
-#include <uf_exit.h> 
-#include <uf_disp.h>  
-#include <vector>
-#include <iostream>
-#include <sstream>
-
 #include <NXOpen/Session.hxx>  
 #include <NXOpen/Part.hxx> 
 #include <NXOpen/PartCollection.hxx>  
@@ -31,21 +23,41 @@
 #include <NXOpen/Features_FeatureCollection.hxx> 
 #include <NXOpen/Features_Feature.hxx> 
 
+#include <stdarg.h>
+#include <iostream>
+#include <strstream>
+#include <sstream>
+#include <vector>
+using std::ostrstream;
+using std::stringstream;
+using std::vector;
+using std::endl;
+using std::ends;
+using std::cerr;
+#include <uf.h>
+#include <uf_ui.h>
+#include <uf_ui_types.h>
+#include <uf_exit.h>
 
-class TriangleUDO {
+using namespace NXOpen;
+using namespace NXOpen::UserDefinedObjects;
+using namespace NXOpen::Features;
+
+#define DLLImport __declspec(dllimport)
+#define DllExport __declspec(dllexport)
+
+extern "C" class DllExport TriangleUDO {
 public:
-	TriangleUDO();
-
-	static NXOpen::Session* theSession ;
-	static NXOpen::UI* theUI;
-	static NXOpen::UserDefinedObjects::UserDefinedClass* myUDOclass;
+	static UserDefinedClass* GetClassUDO();
 private:
-	int iniUDO();
-
+	TriangleUDO();
+	static Session* theSession;
+	static UI* theUI;
+	static UserDefinedClass* triUdo_class;
+	
+	static int myDisplayCB(UserDefinedDisplayEvent*  displayEvent);
+	static int myEditCB(UserDefinedEvent* editEvent);
+	static int myInfoCB(UserDefinedEvent* infoEvent);
 };
-
-NXOpen::Session* (TriangleUDO::theSession) = NULL;
-NXOpen::UI* (TriangleUDO::theUI) = NULL;
-NXOpen::UserDefinedObjects::UserDefinedClass* (TriangleUDO::myUDOclass) = NULL;
 
 
