@@ -2,39 +2,23 @@
 
 Session *(TriangleUDO::theSession) = NULL;
 UI* (TriangleUDO::theUI) = NULL;
-UserDefinedClass*(TriangleUDO::triUdo_class) = NULL;
+UserDefinedClass* (TriangleUDO::staticClass) = NULL;
 
 UserDefinedClass* TriangleUDO::GetClassUDO()
 {
 
-	if (triUdo_class == NULL)
+	if (staticClass == NULL)
 	{
 		TriangleUDO();
-
-		// Define your custom UDO class 
-		triUdo_class = theSession->UserDefinedClassManager()->CreateUserDefinedObjectClass("trinagleUDO", "Sample C++ UDO");
-		// Setup properties on the custom UDO class 
-		triUdo_class->SetAllowQueryClassFromName(UserDefinedClass::AllowQueryClass::AllowQueryClassOn);
-		// Register callbacks for the UDO class 
-		triUdo_class->AddDisplayHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddAttentionPointHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddFitHandler(make_callback(&myDisplayCB));
-		triUdo_class->AddSelectionHandler(make_callback(&myDisplayCB));
-
-		triUdo_class->AddEditHandler(make_callback(&myEditCB));
-		triUdo_class->AddInformationHandler(make_callback(&myInfoCB));
-		// Add this class to the list of object types available for selection in NX. 
-		// If you skip this step you won't be able to select UDO's of this class, 
-		// even though you registered a selection callback. 
-		theUI->SelectionManager()->SetSelectionStatusOfUserDefinedClass(triUdo_class, true);
 	}
-	return triUdo_class;
+	return staticClass;
 }
 
 TriangleUDO::TriangleUDO()
 {
 	theSession = Session::GetSession();
 	theUI = UI::GetUI();
+	inizialize();
 }
 
 int TriangleUDO::myDisplayCB(UserDefinedDisplayEvent * displayEvent)
@@ -161,6 +145,30 @@ int TriangleUDO::myInfoCB(UserDefinedEvent * infoEvent)
 	{
 		// ---- Enter your exception handling code here ----- 
 		cerr << "Caught exception: " << ex.Message() << endl;
+	}
+	return 0;
+}
+
+int TriangleUDO::inizialize()
+{
+	if (triUdo_class == NULL)
+	{
+		// Define your custom UDO class 
+		triUdo_class = theSession->UserDefinedClassManager()->CreateUserDefinedObjectClass("trinagleUDO", "Sample C++ UDO");
+		// Setup properties on the custom UDO class 
+		triUdo_class->SetAllowQueryClassFromName(UserDefinedClass::AllowQueryClass::AllowQueryClassOn);
+		// Register callbacks for the UDO class 
+		triUdo_class->AddDisplayHandler(make_callback(&myDisplayCB));
+		triUdo_class->AddAttentionPointHandler(make_callback(&myDisplayCB));
+		triUdo_class->AddFitHandler(make_callback(&myDisplayCB));
+		triUdo_class->AddSelectionHandler(make_callback(&myDisplayCB));
+
+		triUdo_class->AddEditHandler(make_callback(&myEditCB));
+		triUdo_class->AddInformationHandler(make_callback(&myInfoCB));
+		// Add this class to the list of object types available for selection in NX. 
+		// If you skip this step you won't be able to select UDO's of this class, 
+		// even though you registered a selection callback. 
+		theUI->SelectionManager()->SetSelectionStatusOfUserDefinedClass(triUdo_class, true);
 	}
 	return 0;
 }

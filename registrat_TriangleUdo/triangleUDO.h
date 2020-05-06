@@ -53,11 +53,11 @@ private:
 	TriangleUDO();
 	static Session* theSession;
 	static UI* theUI;
-	static UserDefinedClass* triUdo_class;
-	
+	static UserDefinedClass* staticClass; //Возвращаемый класс
 	static int myDisplayCB(UserDefinedDisplayEvent*  displayEvent);
 	static int myEditCB(UserDefinedEvent* editEvent);
 	static int myInfoCB(UserDefinedEvent* infoEvent);
+	int inizialize();
 };
 
 
