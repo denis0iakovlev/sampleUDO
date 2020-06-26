@@ -1,38 +1,3 @@
-//=============================================================================
-//
-//                   Copyright (c) 2012 Siemens PLM Solutions
-//                    Unpublished - All rights reserved
-//===============================================================================
-// This program creates a very simple UDO example. 
-// 
-// It demonstrates each of the following callbacks: 
-// * Display 
-// * Selection 
-// * Attention Point 
-// * Fit 
-// * Edit 
-// * Information 
-// 
-// In NX execute this program via: File -> Execute -> NX Open... 
-// This program begins by opening a new part (if there were no open parts). 
-// Next it will prompt you to select a position on the screen. 
-// The screen position will be used as a reference point for the UDO. 
-// The UDO will display as a triangle on that point with a name 
-// "C++ UDO" next to the triangle. 
-// 
-// This UDO is selectable. If you go to Information->Object and select
-// the UDO you will see custom information output to the listing window from 
-// the function myInfoCB defined in this program. 
-// 
-// You can also edit the location of the UDO. Start by right-clicking 
-// on the UDO and selecting "Edit User Defined Object" from the MB3 popup menu. 
-// Editing the UDO will invoke the myEditCB function defined in this program. 
-// You will be prompted to select a new screen position, and after you make 
-// the selection the UDO will move to the new location. 
-//=============================================================================
-//
-//=============================================================================
-/* Include files */ 
 #define FOLD_APP
 //#define FOLD_UDO
 
